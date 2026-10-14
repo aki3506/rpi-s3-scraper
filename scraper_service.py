@@ -18,7 +18,7 @@ def run_pipeline():
     aws_region = os.getenv("AWS_REGION", "eu-central-1")
 
     if not all([target_url, bucket_name, aws_key, aws_secret]):
-        print(f"[{datetime.now()}] Yapılandırma eksik, bekleniyor...")
+        print(f"[{datetime.now()}] Yapilandirma eksik, bekleniyor...")
         return False
 
     headers = {"User-Agent": "Mozilla/5.0 (Compatible; PiScraperBot/1.0)"}
@@ -51,14 +51,14 @@ def run_pipeline():
         Body=json.dumps(payload, ensure_ascii=False, indent=2).encode("utf-8"),
         ContentType="application/json"
     )
-    print(f"[{datetime.now()}] Başarıyla S3'e yüklendi: {s3_key}")
+    print(f"[{datetime.now()}] Basariyla S3'e yuklendi: {s3_key}")
     return True
 
 def main():
     while True:
         try:
             if not os.path.exists(ENV_PATH):
-                print(f"[{datetime.now()}] .env dosyası bulunamadı, bekleniyor...")
+                print(f"[{datetime.now()}] .env dosyasi bulunamadi, bekleniyor...")
                 time.sleep(15)
                 continue
 
