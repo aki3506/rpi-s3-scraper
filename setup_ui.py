@@ -9,7 +9,7 @@ def load_current_env():
     data = {}
     target = ENV_FILE if os.path.exists(ENV_FILE) else ENV_EXAMPLE
     if os.path.exists(target):
-        with open(target, "r") as f:
+        with open(target, "r", encoding="utf-8") as f:
             for line in f:
                 if "=" in line and not line.startswith("#"):
                     k, v = line.strip().split("=", 1)
@@ -17,31 +17,30 @@ def load_current_env():
     return data
 
 def save_env(entries, root):
-    with open(ENV_FILE, "w") as f:
+    with open(ENV_FILE, "w", encoding="utf-8") as f:
         for key, entry in entries.items():
             f.write(f"{key}={entry.get().strip()}\n")
-    messagebox.showinfo("Başarılı", "Ayarlar kaydedildi! Servis başlatılıyor...")
+    messagebox.showinfo("Basarili", "Ayarlar kaydedildi! Servis baslatiliyor...")
     root.destroy()
     os.system("sudo systemctl restart s3-scraper.service")
 
 def main():
     current_data = load_current_env()
-
     root = tk.Tk()
     root.title("Pi S3 Scraper Setup")
     root.geometry("800x480")
     root.attributes("-fullscreen", True)
 
-    tk.Label(root, text="Sistem Yapılandırma Paneli", font=("Arial", 16, "bold")).pack(pady=10)
+    tk.Label(root, text="Sistem Yapilandirma Paneli", font=("Arial", 16, "bold")).pack(pady=10)
 
     entries = {}
     fields = [
         ("AWS_ACCESS_KEY_ID", "AWS Access Key:"),
         ("AWS_SECRET_ACCESS_KEY", "AWS Secret Key:"),
         ("AWS_REGION", "AWS Region:"),
-        ("S3_BUCKET_NAME", "S3 Bucket Adı:"),
+        ("S3_BUCKET_NAME", "S3 Bucket Adi:"),
         ("TARGET_URL", "Hedef URL:"),
-        ("SCRAPE_INTERVAL_MINUTES", "Çalışma Aralığı (Dakika):")
+        ("SCRAPE_INTERVAL_MINUTES", "Calisma Araligi (Dakika):")
     ]
 
     form_frame = tk.Frame(root)
@@ -57,9 +56,9 @@ def main():
     btn_frame = tk.Frame(root)
     btn_frame.pack(pady=15)
 
-    tk.Button(btn_frame, text="Kaydet ve Başlat", font=("Arial", 12, "bold"), bg="#28a745", fg="white",
+    tk.Button(btn_frame, text="Kaydet ve Baslat", font=("Arial", 12, "bold"), bg="#28a745", fg="white",
               padx=15, pady=5, command=lambda: save_env(entries, root)).pack(side="left", padx=10)
-    tk.Button(btn_frame, text="Kapat / Masaüstü", font=("Arial", 10),
+    tk.Button(btn_frame, text="Kapat / Masaustu", font=("Arial", 10),
               command=root.destroy).pack(side="left")
 
     root.mainloop()
